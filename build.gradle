@@ -1,0 +1,30 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+}
+
+group 'com.chemaxon.designhub'
+version '1.0-SNAPSHOT'
+
+repositories {
+    //mavenLocal()
+    mavenCentral()
+    maven {
+        url 'https://hub.chemaxon.com:443/artifactory/cxn-maven-release/'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
+}
+
+dependencies {
+    implementation group: 'com.chemaxon.designhub', name: 'design-hub-realtime-plugin-base', version: '1.0.4'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
+
+springBoot {
+    mainClassName = 'com.chemaxon.designhub.plugin.application.PluginApplication'
+}
