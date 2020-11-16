@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.chemaxon.designhub', name: 'design-hub-realtime-plugin-base', version: '1.0.4'
+    implementation group: 'com.chemaxon.designhub', name: 'design-hub-realtime-plugin-base', version: '1.0.5'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
