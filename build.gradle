@@ -11,10 +11,10 @@ repositories {
     //mavenLocal()
     mavenCentral()
     maven {
-        url 'https://hub.chemaxon.com:443/artifactory/cxn-maven-release/'
+        url "${chemaxonRepositoryUrl}/cxn-maven-release"
         credentials {
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
+            username = "${chemaxonRepositoryUser}"
+            password = "${chemaxonRepositoryPassword}"
         }
     }
 }

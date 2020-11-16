@@ -8,6 +8,9 @@ Source:  [RealtimePluginInterface](../docs/RealtimePluginInterface.java)
 
 The best way is to use this project and edit [PluginLogic.java](src/main/java/com/chemaxon/designhub/plugin/exampleimpl/PluginLogic.java) file.
 
+## Chemaxon hub authentication
+To be able to build this example project hub.chemaxon.com setup as Maven repository must be provided. See documentation [here](https://docs.chemaxon.com/display/docs/public-repository.md#src-1806243-publicrepository-gradle) and example [gradle.properties](gradle.properties)
+
 ## Example
 ```
 @Component
