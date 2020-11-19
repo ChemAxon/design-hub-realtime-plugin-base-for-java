@@ -1,35 +1,46 @@
 package com.chemaxon.designhub.plugin.exampleimpl;
 
 import com.chemaxon.designhub.plugin.settings.types.BooleanPluginSetting;
+import com.chemaxon.designhub.plugin.settings.types.NumberPluginSetting;
 import com.chemaxon.designhub.plugin.settings.types.StringPluginSetting;
 import com.chemaxon.designhub.plugin.settings.util.CustomSettings;
 
 public class PluginSettings extends CustomSettings {
-    BooleanPluginSetting s1;
-    StringPluginSetting s2;
+    BooleanPluginSetting reportEnabled;
+    StringPluginSetting niceString;
+    NumberPluginSetting atomCount;
 
     public PluginSettings() {
         // Always keep no args constructor.
     }
 
-    public PluginSettings(BooleanPluginSetting s1, StringPluginSetting s2) {
-        this.s1 = s1;
-        this.s2 = s2;
+    public PluginSettings(BooleanPluginSetting reportEnabled, StringPluginSetting niceString, NumberPluginSetting atomCount) {
+        this.reportEnabled = reportEnabled;
+        this.niceString = niceString;
+        this.atomCount = atomCount;
     }
 
-    public BooleanPluginSetting getS1() {
-        return s1;
+    public BooleanPluginSetting getReportEnabled() {
+        return reportEnabled;
     }
 
-    public StringPluginSetting getS2() {
-        return s2;
+    public void setReportEnabled(BooleanPluginSetting reportEnabled) {
+        this.reportEnabled = reportEnabled;
     }
 
-    public void setS1(BooleanPluginSetting s1) {
-        this.s1 = s1;
+    public StringPluginSetting getNiceString() {
+        return niceString;
     }
 
-    public void setS2(StringPluginSetting s2) {
-        this.s2 = s2;
+    public void setNiceString(StringPluginSetting niceString) {
+        this.niceString = niceString;
+    }
+
+    public NumberPluginSetting getAtomCount() {
+        return atomCount;
+    }
+
+    public void setAtomCount(NumberPluginSetting atomCount) {
+        this.atomCount = atomCount;
     }
 }
