@@ -24,6 +24,8 @@ dependencies {
     implementation 'com.chemaxon:jchem-main:20.9.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    testCompile ('org.springframework.boot:spring-boot-starter-test')
+    testCompile ('org.junit.jupiter:junit-jupiter:5.4.0')
 }
 
 springBoot {
