@@ -66,9 +66,11 @@ public class PluginLogic implements RealtimePluginInterface<PluginSettings> {
             clientData.setSettingOfCustomAtomCount(customAtomCountSetting);
 
             if (settings.getReportEnabled().getValue()) {
-                HashMap<String, String> reportData = new HashMap<>();
-                reportData.put("Oxygen atom count:", String.valueOf(atomCount1));
-                reportData.put("Non-isotope oxygen count", String.valueOf(atomCount2));
+                HashMap<String, Object> reportData = new HashMap<>();
+                reportData.put("Oxygen atom count", atomCount1);
+                reportData.put("Non-isotope oxygen count", atomCount2);
+                reportData.put("Some boolean data", true);
+                reportData.put("Some string data", "Report data!");
                 return new ResultSet(clientData, reportData);
             }
             //Return null in the case this plugin should not provide any report data

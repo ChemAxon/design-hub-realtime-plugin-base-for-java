@@ -14,7 +14,9 @@
     "settingOfCustomAtomCount": 10
   },
   "report": {
-    "Non-isotope oxygen count": "2",
-    "Oxygen atom count:": "2"
+    "Non-isotope oxygen count": 2,
+    "Oxygen atom count": 2,
+    "Some string data": "Report data!",
+    "Some boolean data": true
   }
 }
