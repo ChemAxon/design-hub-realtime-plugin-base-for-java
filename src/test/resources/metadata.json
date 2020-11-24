@@ -1,0 +1,26 @@
+{
+  "type": "realtime",
+  "name": "example-java-plugin-name",
+  "label": "Example plugin label",
+  "template": "<div>\n  <p>Oxygen atom count: {{client.atomCount1}}</p>\n  <p>Non-isotope oxygen count: {{client.atomCount2}}</p>\n  <p>Oxygen isotope count with massno=16: {{client.atomCount3}}</p>\n  <p>Custom set ({{client.settingOfCustomAtomCount}}) atom count: {{client.customAtomCount}}</p>\n  <p>Formula: {{client.formula}}</p>\n  <p>Isotope formula: {{client.isotopeFormula}}</p>\n  <p>Composition: {{client.composition}}</p>\n  <p>Isotope composition: {{client.isotopeComposition}}</p>\n</div>",
+  "domains": [
+    "*"
+  ],
+  "settings": [
+    {
+      "label": "Enable report data",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "label": "Put some nice string here",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "label": "Custom atom count",
+      "type": "number",
+      "default": 4
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "client": {
+    "exactMass": 0.0,
+    "mass": 0.0,
+    "massPrecision": 0,
+    "atomCount1": 2,
+    "atomCount2": 2,
+    "atomCount3": 0,
+    "formula": "C8H10N4O2",
+    "isotopeFormula": "C8H10N4O2",
+    "composition": "C (49,48%), H (5,19%), N (28,85%), O (16,48%)",
+    "isotopeComposition": "C (49,48%), H (5,19%), N (28,85%), O (16,48%)",
+    "customAtomCount": 0,
+    "settingOfCustomAtomCount": 10
+  },
+  "report": {
+    "Non-isotope oxygen count": 2,
+    "Oxygen atom count": 2,
+    "Some string data": "Report data!",
+    "Some boolean data": true
+  }
+}

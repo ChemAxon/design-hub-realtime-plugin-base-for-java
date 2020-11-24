@@ -1,0 +1,10 @@
+{
+  "structure" : "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+  "pinnedStructure" : "",
+  "context" : {},
+  "settings": {
+    "Enable report data": true,
+    "Put some nice string here": "ChemAxon is cool",
+    "Custom atom count" : 10
+  }
+}
