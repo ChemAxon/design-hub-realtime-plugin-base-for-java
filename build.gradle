@@ -31,3 +31,10 @@ dependencies {
 springBoot {
     mainClassName = 'com.chemaxon.designhub.plugin.application.PluginApplication'
 }
+
+task runPlugin(type: JavaExec) {
+    group = "Execution"
+    description = "Run the main class with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.chemaxon.designhub.plugin.application.PluginApplication'
+}
