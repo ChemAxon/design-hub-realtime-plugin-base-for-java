@@ -4,7 +4,7 @@ https://docs.chemaxon.com/display/docs/design-hub-developer-guide-real-time-plug
 
 ## How to implement a realtime plugin for Design hub
 The only thing you need to do is to implement `com.chemaxon.designhub.plugin.interfaces.RealtimePluginInterface`
-Source:  [RealtimePluginInterface](../docs/RealtimePluginInterface.java)
+Source:  [RealtimePluginInterface](docs/RealtimePluginInterface.java)
 
 Most simple way is to use this project and edit [PluginLogic.java](src/main/java/com/chemaxon/designhub/plugin/exampleimpl/PluginLogic.java) file.
 
