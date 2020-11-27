@@ -154,3 +154,22 @@ curl --location --request POST 'http://localhost:9990/update' \
 To add this plugin to Design Hub to add this line to config.json. Replace `localhost:port` with the actual address the plugin is listening on.
 
 ```"remoteServices": ["http://localhost:9990"]```
+
+#### Testing performance
+![JMeter](jmeter/jmeter.png "JMeter")
+
+For testing performance a simple JMeter [test plan](jmeter/performancetest.jmx) has been created. Performance test is designed to simulate real user load (calling `POST /update`) based on this rule:
+
+Start 100 threads (simulating 100 simultaneously working users) doing:
+
+```
+while (true) {
+    Fetch new test data from smiles.csv    
+    Perform /update POST call
+    Think time 4 sec (default delay for real time plugin call set up in Design Hub)
+    Repeat
+}
+```
+
+#### Test data
+Data from [ChEMBL](https://www.ebi.ac.uk/chembl/) database has been exported (10000 rows) in [smiles.csv](jmeter/smiles.csv).
