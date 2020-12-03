@@ -166,10 +166,19 @@ Start 100 threads (simulating 100 simultaneously working users) doing:
 while (true) {
     Fetch new test data from smiles.csv    
     Perform /update POST call
-    Think time 4 sec (default delay for real time plugin call set up in Design Hub)
+    Pacing time 2 seconds
     Repeat
 }
 ```
+
+Performance test script simulates logic of how Design Hub works with realtime plugins.
+This is archived by following these rules:
+- if previous request has not been finished do not send a new one
+- if previous request had shorter response time than 2 seconds wait until 2 seconds passed since start of
+previous request and send a new one 
+
+These rules will create constant throughout of 50 request per second on /update endpoint for 100 of users. To change
+this, change number of running threads. 
 
 #### Test data
 Data from [ChEMBL](https://www.ebi.ac.uk/chembl/) database has been exported (10000 rows) in [smiles.csv](jmeter/smiles.csv).

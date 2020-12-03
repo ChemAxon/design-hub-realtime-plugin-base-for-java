@@ -16,10 +16,10 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">100</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">100</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -42,11 +42,6 @@
             <boolProp name="stopThread">false</boolProp>
             <stringProp name="variableNames">smile</stringProp>
           </CSVDataSet>
-          <hashTree/>
-          <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Uniform Random Timer" enabled="true">
-            <stringProp name="ConstantTimer.delay">0</stringProp>
-            <stringProp name="RandomTimer.range">4000</stringProp>
-          </UniformRandomTimer>
           <hashTree/>
           <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Data escape" enabled="true">
             <stringProp name="cacheKey">true</stringProp>
@@ -98,6 +93,39 @@ vars.put(&quot;smile_escaped&quot;, a);</stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree>
+            <JSR223Timer guiclass="TestBeanGUI" testclass="JSR223Timer" testname="Pacing timer" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">// https://www.blazemeter.com/blog/how-to-easily-implement-pacing-jmeter
+Long prevTime = prev.getTime();
+
+if (prevTime == null) {
+	log.info(&quot;prevTime is null&quot;);
+	return 2000;	
+}
+
+//Sets the pacing length based on the last requests response time. 2000 is the time in ms
+Long pacing = 2000 - prev.getTime();
+ 
+//If the response time is less than 2000 ms, set the delay value to myDelay
+if ( pacing &gt; 0 ) 
+{ 
+	//iPacing is equal to the int value of pacing if pacing is not equal to null, otherwise iPacing is null
+	Integer iPacing = pacing != null ? pacing.intValue() : null; 
+	log.info(String.valueOf(iPacing));
+	vars.put(&quot;myDelay&quot;, String.valueOf(iPacing)); 
+	return iPacing; 
+}
+//The response time is greater than or equal to 2000 ms, set myDelay to 0
+else 
+{ 
+	vars.put(&quot;myDelay&quot;, &quot;0&quot;);
+	return 0; 
+}</stringProp>
+              <stringProp name="scriptLanguage">groovy</stringProp>
+            </JSR223Timer>
+            <hashTree/>
             <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="" elementType="Header">
