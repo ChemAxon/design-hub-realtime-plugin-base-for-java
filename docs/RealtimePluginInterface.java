@@ -52,6 +52,13 @@ public interface RealtimePluginInterface<T extends CustomSettings> {
      */
     @NonNull String getName();
 
+    /** Tell Design Hub whether this plugin provides report data.
+     * This information is used to show or hide this plugin in design set Add Property menu.
+     * @return {@code true} show this plugin in design set menu or {@code false} hide this plugin
+     * in design set menu
+     */
+    boolean hasReport();
+
     /**
      * @return Piece of JavaScript code used to display data in Design Hub.
      * Please see https://docs.chemaxon.com/display/docs/design-hub-developer-guide-real-time-plugin-templates.md
