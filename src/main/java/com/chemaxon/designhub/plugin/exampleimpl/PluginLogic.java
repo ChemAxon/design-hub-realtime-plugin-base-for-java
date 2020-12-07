@@ -112,4 +112,9 @@ public class PluginLogic implements RealtimePluginInterface<PluginSettings> {
                 "  <p>Isotope composition: {{client.isotopeComposition}}</p>\n" +
                 "</div>";
     }
+
+    @Override
+    public boolean hasReport() {
+        return true;
+    }
 }
