@@ -1,5 +1,5 @@
 # Design hub realtime plugin example implementation for Java
-Please see also doc here: 
+Please see also doc here:
 https://docs.chemaxon.com/display/docs/design-hub-developer-guide-real-time-plugins.md
 
 ## How to implement a realtime plugin for Design hub
@@ -16,24 +16,19 @@ To be able to build this example project credentials for hub.chemaxon.com Maven 
 @Component
 public class PluginLogic implements RealtimePluginInterface<PluginSettings> {
 
-    final PluginSettings myDefaultSettings = new PluginSettings(
+    private static final Logger logger = LoggerFactory.getLogger(PluginLogic.class);
+
+    private final PluginSettings myDefaultSettings = new PluginSettings(
             new BooleanPluginSetting("Enable report data", true),
             new StringPluginSetting("Put some nice string here", ""),
             new NumberPluginSetting("Custom atom count", 4));
 
-    ElementalAnalyser elementalAnalyser = new ElementalAnalyser();
-
-    final Logger logger = LoggerFactory.getLogger(PluginLogic.class);
-
-    public ResultSet getResultSet(String structure, String pinnedStructure, PluginSettings settings, Object context) {
+    public ResultSet getResultSet(String structure, String pinnedStructure, PluginSettings settings, Map<String, Object> context) {
         logger.debug("We just received some data!");
         try {
-            MolImporter mi = new MolImporter(new ByteArrayInputStream(structure.getBytes()));
-            Molecule mol = null;
-            mol = mi.read();
-
+            Molecule mol = MolImporter.importMol(structure);
+            ElementalAnalyser elementalAnalyser = new ElementalAnalyser();
             elementalAnalyser.setMolecule(mol);
-
             double exactMass = elementalAnalyser.exactMass();
             double mass = elementalAnalyser.mass();
             int massPrecision = elementalAnalyser.massPrecision();
@@ -64,20 +59,19 @@ public class PluginLogic implements RealtimePluginInterface<PluginSettings> {
             clientData.setSettingOfCustomAtomCount(customAtomCountSetting);
 
             if (settings.getReportEnabled().getValue()) {
-                HashMap<String, Object> reportData = new HashMap<>();
+                Map<String, Object> reportData = new HashMap<>();
                 reportData.put("Oxygen atom count", atomCount1);
                 reportData.put("Non-isotope oxygen count", atomCount2);
                 reportData.put("Some boolean data", true);
                 reportData.put("Some string data", "Report data!");
-                return new ResultSet(clientData, reportData);
+                return ResultSet.of(clientData, reportData);
             }
-            //Return null in the case this plugin should not provide any report data
-            return new ResultSet(clientData, null);
-
+            // Return null in the case this plugin should not provide any report data
+            return ResultSet.of(clientData, null);
         } catch (Exception e) {
             logger.error("There was an error processing this calculation structure: {}", structure);
             logger.error(e.getMessage());
-            return new ResultSet(null, null);
+            return ResultSet.EMPTY;
         }
     }
 
@@ -110,6 +104,11 @@ public class PluginLogic implements RealtimePluginInterface<PluginSettings> {
                 "  <p>Isotope composition: {{client.isotopeComposition}}</p>\n" +
                 "</div>";
     }
+
+    @Override
+    public boolean hasReport() {
+        return true;
+    }
 }
 ```
 
@@ -121,7 +120,7 @@ public class PluginLogic implements RealtimePluginInterface<PluginSettings> {
 #### Run the plugin listening on port 9990
 `java -jar build\libs\example-implementation-1-1.0-SNAPSHOT.jar`
 
-or run plugin using Gradle task ```gradlew runPlugin```
+or run plugin using Gradle task ```gradlew bootRun```
 
 #### Run tests
 Run JUnit tests using ```gradlew test```
@@ -150,7 +149,7 @@ curl --location --request POST 'http://localhost:9990/update' \
 '
 ```
 
-#### Design Hub configuration 
+#### Design Hub configuration
 To add this plugin to Design Hub to add this line to config.json. Replace `localhost:port` with the actual address the plugin is listening on.
 
 ```"remoteServices": ["http://localhost:9990"]```
@@ -164,7 +163,7 @@ Start 100 threads (simulating 100 simultaneously working users) doing:
 
 ```
 while (true) {
-    Fetch new test data from smiles.csv    
+    Fetch new test data from smiles.csv
     Perform /update POST call
     Pacing time 2 seconds
     Repeat
@@ -175,10 +174,10 @@ Performance test script simulates logic of how Design Hub works with realtime pl
 This is archived by following these rules:
 - if previous request has not been finished do not send a new one
 - if previous request had shorter response time than 2 seconds wait until 2 seconds passed since start of
-previous request and send a new one 
+previous request and send a new one
 
 These rules will create constant throughout of 50 request per second on /update endpoint for 100 of users. To change
-this, change number of running threads. 
+this, change number of running threads.
 
 #### Test data
 Data from [ChEMBL](https://www.ebi.ac.uk/chembl/) database has been exported (10000 rows) in [smiles.csv](jmeter/smiles.csv).

@@ -1,41 +1,38 @@
 package com.chemaxon.designhub.plugin.exampleimpl;
 
-import chemaxon.calculations.ElementalAnalyser;
-import chemaxon.formats.MolImporter;
-import chemaxon.struc.Molecule;
 import com.chemaxon.designhub.plugin.interfaces.RealtimePluginInterface;
 import com.chemaxon.designhub.plugin.interfaces.ResultSet;
 import com.chemaxon.designhub.plugin.settings.types.BooleanPluginSetting;
 import com.chemaxon.designhub.plugin.settings.types.NumberPluginSetting;
 import com.chemaxon.designhub.plugin.settings.types.StringPluginSetting;
+
+import chemaxon.calculations.ElementalAnalyser;
+import chemaxon.formats.MolImporter;
+import chemaxon.struc.Molecule;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class PluginLogic implements RealtimePluginInterface<PluginSettings> {
 
-    final PluginSettings myDefaultSettings = new PluginSettings(
+    private static final Logger logger = LoggerFactory.getLogger(PluginLogic.class);
+
+    private final PluginSettings myDefaultSettings = new PluginSettings(
             new BooleanPluginSetting("Enable report data", true),
             new StringPluginSetting("Put some nice string here", ""),
             new NumberPluginSetting("Custom atom count", 4));
 
-    ElementalAnalyser elementalAnalyser = new ElementalAnalyser();
-
-    final Logger logger = LoggerFactory.getLogger(PluginLogic.class);
-
-    public ResultSet getResultSet(String structure, String pinnedStructure, PluginSettings settings, Object context) {
+    public ResultSet getResultSet(String structure, String pinnedStructure, PluginSettings settings, Map<String, Object> context) {
         logger.debug("We just received some data!");
         try {
-            MolImporter mi = new MolImporter(new ByteArrayInputStream(structure.getBytes()));
-            Molecule mol = null;
-            mol = mi.read();
-
+            Molecule mol = MolImporter.importMol(structure);
+            ElementalAnalyser elementalAnalyser = new ElementalAnalyser();
             elementalAnalyser.setMolecule(mol);
-
             double exactMass = elementalAnalyser.exactMass();
             double mass = elementalAnalyser.mass();
             int massPrecision = elementalAnalyser.massPrecision();
@@ -66,20 +63,19 @@ public class PluginLogic implements RealtimePluginInterface<PluginSettings> {
             clientData.setSettingOfCustomAtomCount(customAtomCountSetting);
 
             if (settings.getReportEnabled().getValue()) {
-                HashMap<String, Object> reportData = new HashMap<>();
+                Map<String, Object> reportData = new HashMap<>();
                 reportData.put("Oxygen atom count", atomCount1);
                 reportData.put("Non-isotope oxygen count", atomCount2);
                 reportData.put("Some boolean data", true);
                 reportData.put("Some string data", "Report data!");
-                return new ResultSet(clientData, reportData);
+                return ResultSet.of(clientData, reportData);
             }
-            //Return null in the case this plugin should not provide any report data
-            return new ResultSet(clientData, null);
-
+            // Return null in the case this plugin should not provide any report data
+            return ResultSet.of(clientData, null);
         } catch (Exception e) {
             logger.error("There was an error processing this calculation structure: {}", structure);
             logger.error(e.getMessage());
-            return new ResultSet(null, null);
+            return ResultSet.EMPTY;
         }
     }
 

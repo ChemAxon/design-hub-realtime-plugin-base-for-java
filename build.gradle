@@ -20,21 +20,14 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.chemaxon.designhub', name: 'design-hub-realtime-plugin-base', version: '1.0.8'
+    implementation 'com.chemaxon.designhub:design-hub-realtime-plugin-base:1.1.0'
     implementation 'com.chemaxon:jchem-main:20.9.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testCompile ('org.springframework.boot:spring-boot-starter-test')
-    testCompile ('org.junit.jupiter:junit-jupiter:5.4.0')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.0'
 }
 
 springBoot {
     mainClassName = 'com.chemaxon.designhub.plugin.application.PluginApplication'
-}
-
-task runPlugin(type: JavaExec) {
-    group = "Execution"
-    description = "Run the main class with JavaExecTask"
-    classpath = sourceSets.main.runtimeClasspath
-    main = 'com.chemaxon.designhub.plugin.application.PluginApplication'
 }

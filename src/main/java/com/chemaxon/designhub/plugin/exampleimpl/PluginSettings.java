@@ -5,10 +5,11 @@ import com.chemaxon.designhub.plugin.settings.types.NumberPluginSetting;
 import com.chemaxon.designhub.plugin.settings.types.StringPluginSetting;
 import com.chemaxon.designhub.plugin.settings.util.CustomSettings;
 
-public class PluginSettings extends CustomSettings {
-    BooleanPluginSetting reportEnabled;
-    StringPluginSetting niceString;
-    NumberPluginSetting atomCount;
+public class PluginSettings implements CustomSettings {
+
+    private BooleanPluginSetting reportEnabled;
+    private StringPluginSetting niceString;
+    private NumberPluginSetting atomCount;
 
     public PluginSettings() {
         // Always keep no args constructor.
