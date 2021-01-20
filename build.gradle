@@ -31,3 +31,5 @@ dependencies {
 springBoot {
     mainClassName = 'com.chemaxon.designhub.plugin.application.PluginApplication'
 }
+
+task runPlugin(dependsOn: bootRun)

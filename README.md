@@ -120,7 +120,7 @@ public class PluginLogic implements RealtimePluginInterface<PluginSettings> {
 #### Run the plugin listening on port 9990
 `java -jar build\libs\example-implementation-1-1.0-SNAPSHOT.jar`
 
-or run plugin using Gradle task ```gradlew bootRun```
+or run plugin using Gradle task ```gradlew runPlugin```
 
 #### Run tests
 Run JUnit tests using ```gradlew test```
